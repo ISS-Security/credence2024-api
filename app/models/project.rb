@@ -6,6 +6,7 @@ require 'sequel'
 module Credence
   # Models a project
   class Project < Sequel::Model
+    unrestrict_primary_key
     one_to_many :documents
     plugin :association_dependencies, documents: :destroy
 

@@ -7,6 +7,8 @@ module Credence
   # Web controller for Credence API
   class Api < Roda
     plugin :halt
+    plugin :unescape_path
+    plugin :common_logger, $stderr
 
     route do |routing|
       response['Content-Type'] = 'application/json'
@@ -59,8 +61,10 @@ module Credence
 
             # GET api/v1/projects/[ID]
             routing.get do
-              proj = Project.first(id: proj_id)
-              proj ? proj.to_json : raise('Project not found')
+              # WARNING: Do not inject URL parameters directly into SQL queries!
+              proj = DB["SELECT * FROM projects WHERE id=#{proj_id}"].to_a
+
+              proj ? JSON.pretty_generate(proj) : raise('Project not found')
             rescue StandardError => e
               routing.halt 404, { message: e.message }.to_json
             end

@@ -6,6 +6,7 @@ require 'sequel'
 module Credence
   # Models a secret document
   class Document < Sequel::Model
+    unrestrict_primary_key
     many_to_one :project
 
     plugin :timestamps
