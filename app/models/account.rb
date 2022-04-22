@@ -31,8 +31,8 @@ module Credence
     end
 
     def password?(try_password)
-      digest = Credence::Password.from_digest(password_digest)
-      digest.correct?(try_password)
+      password = Credence::Password.from_digest(password_digest)
+      password.correct?(try_password)
     end
 
     def to_json(options = {})

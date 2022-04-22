@@ -47,7 +47,7 @@ task :console => :print_env do
 end
 
 namespace :db do
-  require_app('config')
+  require_app(nil)
   require 'sequel'
 
   Sequel.extension :migration
@@ -78,7 +78,7 @@ namespace :db do
   end
 
   task :load_models do
-    require_app(%w[config lib models services])
+    require_app(%w[lib models services])
   end
 
   task :reset_seeds => [:load_models] do
